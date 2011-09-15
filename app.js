@@ -9,19 +9,12 @@ app.get('/', function(req, res) {
     })
 })
 
-app.post('/', function(req, res) {
+app.post('/', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Headers", "X-Requested-With")
     req.form.complete(function(err, fields, files) {
-        if (err) {
-            next(err)
-        }
-        else {
-            console.log('\nuploaded %s to %s',  files.image.filename, files.image.path);
-            res.redirect('/')
-        }
+        err ? next(err) : res.redirect('/')
     })
-    // res.send(200)
 })
 
 app.listen(process.env.PORT || 3000)
